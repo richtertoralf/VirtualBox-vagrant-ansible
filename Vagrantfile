@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
     node.vm.box = "debian/bullseye64"
 
     # Setze die IP-Adresse
-    node.vm.network "private_network", ip: "192.168.95.1"
+    node.vm.network "private_network", ip: "192.168.69.1"
 
     # Setze den Hostnamen
     node.vm.hostname = "fg01DebianRouter"
@@ -62,9 +62,9 @@ Vagrant.configure("2") do |config|
 
     # Konfiguriere den Router
     node.vm.provision "shell", inline: <<-SHELL
-      echo "192.168.69.1/24 via 192.168.95.1 dev eth0" >> /etc/iptables/rules.v4
-      echo "0.0.0.0/0 via 192.168.95.1 dev eth0" >> /etc/iproute2/rt_tables
-      ip route add default via 192.168.95.1 dev eth0
+      echo "192.168.69.1/24 via 192.168.69.1 dev eth0" >> /etc/iptables/rules.v4
+      echo "0.0.0.0/0 via 192.168.69.1 dev eth0" >> /etc/iproute2/rt_tables
+      ip route add default via 192.168.69.1 dev eth0
     SHELL
 
   end
