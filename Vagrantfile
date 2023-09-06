@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
       sysctl -p /etc/sysctl.conf
       
       # Füge eine NAT-Routing-Regel hinzu, um den Datenverkehr von den Ubuntu-VMs über die Debian-VM ins Host-Netzwerk zu leiten
-      iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+      sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
     SHELL
   end
 end
