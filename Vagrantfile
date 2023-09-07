@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
     config.vm.define vm_name do |node|
       node.vm.box = vm_settings[:box_name]
       node.vm.hostname = vm_name
-      node.vm.network "private_network", type: "static", name: "#{vm_settings[:private_network_name]}", ip: vm_ip, extra: "option routers #{debian_router_ip};"
+      node.vm.network "private_network", type: "static", name: "#{vm_settings[:private_network_name]}", ip: vm_ip, extra: "option routers #{debian_router_ip}", virtualbox__intnet: true
       node.vm.provider "virtualbox" do |vb|
         vb.name = vm_name
         vb.memory = vm_settings[:memory]
