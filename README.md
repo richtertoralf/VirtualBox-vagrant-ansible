@@ -3,6 +3,10 @@ Virtuelle Maschinen in VirtualBox mit Vagrant und Ansible erstellen und verwalte
 
 >Manchmal benötige ich ganz schnell eine Testumgebung, z.B. ein virtuelles Netzwerk mit mehreren Computern. Dazu bietet sich VirtualBox und Vagrant an.
 
+## Was machen Vagrant und Ansible?
+- Ansible ist ein Automatisierungstool. Es ermöglicht dir, Aufgaben auf mehreren Systemen gleichzeitig auszuführen, ohne dass du dich auf einem einzelnen System anmelden musst. Ansible ist ein mächtiges Werkzeug, das für eine Vielzahl von Aufgaben verwendet werden kann, z. B. für das Provisionieren von virtuellen Maschinen, das Installieren von Software und das Konfigurieren von Systemen.
+- Vagrant ist ein Tool zum Erstellen und Verwalten von virtuellen Maschinen. Es ermöglicht dir, virtuelle Maschinen auf deinem Computer zu erstellen und zu verwalten. Vagrant ist ein einfaches und flexibles Werkzeug, das sowohl für Anfänger als auch erfahrene Benutzer geeignet ist.
+
 ## Vagrant-Kochrezept: Testumgebung vorbereiten und erstellen
 - Computer mit frischem Ubuntu 20.04 LTS als Betriebssystem
 ```
