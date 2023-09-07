@@ -68,7 +68,7 @@ Habe mal Bard gefragt. Er schlägt mit das folgende Playbook dazu vor. Da mir di
       num_vms: 3
       memory: 1024
       private_network_name: "intnet01"
-      base_ip: "192.168.100.10"
+      base_ip: "192.168.100.101"
       box_name: "ubuntu/focal64"
       user_name: "tori"
       user_password: "linux"
@@ -138,4 +138,16 @@ Habe mal Bard gefragt. Er schlägt mit das folgende Playbook dazu vor. Da mir di
 
       # Enable NAT for eth1
       sudo iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
+
+  - name: Configure Ubuntu VMs
+    block:
+    - name: Configure IP address
+      shell: |
+        sudo ip addr add {{ item.vm_ip }}/24 dev enp0s8
+
+    - name: Configure gateway
+      shell: |
+        sudo ip route add default via {{ debian_router_ip }} dev enp0s8
+
+    loop: "{{ range(vm_settings.num_vms) | map(attribute='number') }}"
 ```
