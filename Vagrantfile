@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   vm_settings = {
     num_vms: 3,
     memory: 1024, # 1 GB RAM
+    private_network_name: "intnet01", # Name des internen Netzwerkes
     base_ip: "192.168.100.10", # Basis-IP-Adresse für Ubuntu VMs
     box_name: "ubuntu/focal64", # Verwende das Image für Ubuntu 22.04 LTS
     user_name: "tori",
@@ -18,9 +19,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "debian-router" do |debian|
     debian.vm.box = "debian/buster64"
     debian.vm.hostname = "debian-router"
-    debian.vm.network "private_network", type: "static", ip: debian_router_ip
+    # Vagrant geht davon aus, dass auf eth0 ein NAT-Gerät verfügbar ist.
+    # Konfiguration der zweiten Netzwerkkarte eth1
+    debian.vm.network "private_network", type: "static", ip: debian_router_ip, name: "#{vm_settings[:private_network_name]}", auto_config: false, virtualbox__intnet: true
 
-    # Konfiguriere die zweite Netzwerkkarte (Host-Netzwerk)
+    # Konfiguriere die dritte Netzwerkkarte eth2 (Host-Netzwerk)
     debian.vm.network "public_network", type: "dhcp"
 
     debian.vm.provider "virtualbox" do |vb|
@@ -46,12 +49,11 @@ Vagrant.configure("2") do |config|
   
       # Füge eine NAT-Routing-Regel hinzu, um den Datenverkehr von den Ubuntu-VMs über die Debian-VM ins Host-Netzwerk zu leiten
       sudo apt install iptables
-      # Erlaube den gesamten Datenverkehr zwischen eth1 (internes Netzwerk / 192.168.100.0/24) und eth2 (Heimnetzwerk / DHCP)
+      # Erlaube den gesamten Datenverkehr zwischen eth1 (internes Netzwerk) und eth2 (Heimnetzwerk)
       sudo iptables -A FORWARD -i eth1 -o eth2 -j ACCEPT
       sudo iptables -A FORWARD -i eth2 -o eth1 -j ACCEPT
       # Aktiviere Network Address Translation (NAT) für das interne Netzwerk (eth1)
       sudo iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
-      # Das wird so nicht immer funktionieren, da die Namen der Schnittstellen abweichen können!!
     SHELL
   end
 
@@ -63,7 +65,7 @@ Vagrant.configure("2") do |config|
     config.vm.define vm_name do |node|
       node.vm.box = vm_settings[:box_name]
       node.vm.hostname = vm_name
-      node.vm.network "private_network", type: "static", ip: vm_ip, extra: "option routers #{debian_router_ip};"
+      node.vm.network "private_network", type: "static", name: "#{vm_settings[:private_network_name]}", ip: vm_ip, extra: "option routers #{debian_router_ip};"
       node.vm.provider "virtualbox" do |vb|
         vb.name = vm_name
         vb.memory = vm_settings[:memory]
