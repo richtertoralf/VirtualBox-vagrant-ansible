@@ -24,5 +24,5 @@ wget -L https://raw.githubusercontent.com/richtertoralf/VirtualBox-vagrant-ansib
 # mit Vagrant die im Vagrantfile beschriebenen virtuellen Maschinen erstellen lassen
 vagrant up
 ```
-Nicht immer funktionert die Netzwwerkkonfiguration und Installation auf diese Weise. Manchmal ist im BIOS/UEFI die Virtualisierung noch einzuschalten, manchmal gibt es undursichtige Abhängigkeiten zwischen dem Betriebssystem, der Version von VirtualBox und Vagrant oder findstere Mächte haben sich gegen dich verschworen. Frag einfach ChatGPT oder Google Bard oder ;-) 
+Nicht immer funktionert die Netzwwerkkonfiguration und Installation auf diese Weise. Manchmal ist im BIOS/UEFI die Virtualisierung noch einzuschalten, manchmal gibt es undursichtige Abhängigkeiten zwischen dem Betriebssystem, der Version von VirtualBox und Vagrant oder finstere Mächte haben sich gegen dich verschworen. Frag einfach ChatGPT oder Google Bard oder einen guten Freund. (Aktuell funktioniert mein Vagrantfile auf einem Windows 11 Host und Oracle VirtualBox Version 7.0.10.)
 
