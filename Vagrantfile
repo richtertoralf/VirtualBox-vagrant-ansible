@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
     debian.vm.hostname = "debian-router"
     # Vagrant geht davon aus, dass auf eth0 ein NAT-Gerät verfügbar ist.
     # Konfiguration der zweiten Netzwerkkarte eth1
-    debian.vm.network "private_network", type: "static", ip: debian_router_ip, name: "#{vm_settings[:private_network_name]}", auto_config: false, virtualbox__intnet: true
+    debian.vm.network "private_network", type: "static", ip: debian_router_ip, name: "#{vm_settings[:private_network_name]}", virtualbox__intnet: true
 
     # Konfiguriere die dritte Netzwerkkarte eth2 (Host-Netzwerk)
     debian.vm.network "public_network", type: "dhcp"
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
     config.vm.define vm_name do |node|
       node.vm.box = vm_settings[:box_name]
       node.vm.hostname = vm_name
-      node.vm.network "private_network", type: "static", name: "#{vm_settings[:private_network_name]}", ip: vm_ip, extra: "option routers #{debian_router_ip}", virtualbox__intnet: true
+      node.vm.network "private_network", type: "static", name: "#{vm_settings[:private_network_name]}", ip: vm_ip, gateways: ["#{debian_router_ip}"], virtualbox__intnet: true
       node.vm.provider "virtualbox" do |vb|
         vb.name = vm_name
         vb.memory = vm_settings[:memory]
