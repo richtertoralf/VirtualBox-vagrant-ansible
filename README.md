@@ -3,7 +3,7 @@ Virtuelle Maschinen in VirtualBox mit Vagrant und Ansible erstellen und verwalte
 
 >Manchmal benötige ich ganz schnell eine Testumgebung, z.B. ein virtuelles Netzwerk mit mehreren Computern. Dazu bietet sich VirtualBox und Vagrant an.
 
-## Kochrezept: Testumgebung vorbereiten und erstellen
+## Vagrant-Kochrezept: Testumgebung vorbereiten und erstellen
 - Computer mit frischem Ubuntu 20.04 LTS als Betriebssystem
 ```
 # System aktualisieren
