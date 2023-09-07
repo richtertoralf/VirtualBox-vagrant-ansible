@@ -41,9 +41,15 @@ Die Debian-Router-VM führt Aufgaben aus, um den Netzwerkverkehr zwischen dem in
 
 ### Die Ubuntu-VMs
 Die Ubuntu-VMs haben jeweils zwei Netzwerkkarten:  
-- enps03: Diese Karte wird wieder als NAT-NIC automatisch von Vagrant eingerichtet.  
-- enps08: Diese Karte ist für das interne Netzwerk zuständig. Sie wird mit einer IP-Adresse aus dem Bereich 192.168.100.101 - 192.168.100.103 konfiguriert.  
+- enp0s3: Diese Karte wird wieder als NAT-NIC automatisch von Vagrant eingerichtet.  
+- enp0s8: Diese Karte ist für das interne Netzwerk zuständig. Sie wird mit einer IP-Adresse aus dem Bereich 192.168.100.101 - 192.168.100.103 konfiguriert.  
 Die Ubuntu-VMs können über die IP-Adressen 192.168.100.101, 192.168.100.102 und 192.168.100.103 über das interne Netzwerk miteinander kommunizieren. Sie können auch über die den Debian-Routers auf das Internet zugreifen.
 
 ## Zugriff auf die VM´s vom Host aus
 `vagrant ssh <hostname>`  z.B. `vagrant ssh debian-router`  
+
+Damit das funktioniert gibt es bei VirtualBox Folgende zu beachten:  
+### NAT-Anforderung als erste Netzwerkschnittstelle
+Bei VirtualBox erfordert Vagrant, dass das erste an die virtuelle Maschine angeschlossene Netzwerkgerät ein NAT-Gerät ist. Das NAT-Gerät wird für die Portweiterleitung verwendet, wodurch Vagrant SSH-Zugriff auf die virtuelle Maschine erhält.  
+Daher werden alle Host-Only- oder Bridged-Netzwerke oder Interne Netzwerke als zusätzliche Netzwerkgeräte hinzugefügt und der virtuellen Maschine als „eth1“, „eth2“ usw. angezeigt. „eth0“ oder „en0“ ist grundsätzlich immer das NAT-Gerät.  
+Es ist derzeit nicht möglich, diese Anforderung außer Kraft zu setzen, aber es ist wichtig zu verstehen, dass sie vorhanden ist. Mir hat das etwas Kopfzerbrechen bereitet, da mir diese Regel nicht bekannt war. Man kann zwar im Nachhinein die erste NIC´s löschen, muss dann aber auch das Routing auf den VM´s anpassen. Danach kann ich auch nicht mehr per `vagrant ssh ...` auf die Maschinen zugreifen, kann aber das "normale SSH", z.B.. `ssh user@hostname` verwenden. Für Netzwerksimulationen ist diese Variante der Erschaffung einer Laborumgebung für mich nicht optimal. Vielleicht fällt mir aber auch noch was ein... 
